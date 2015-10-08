@@ -1,7 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
-
+#include "ofxDmx.h"
+#include "ofxJSON.h"
 //------------------------------------------------
 // *
 // * Color Definitions
@@ -25,6 +26,16 @@
 #define WHITE ofColor(255,255,255)
 #define OFF ofColor(0,0,0)
 
+//------------------------------------------------
+// *
+// * Serial Commands
+// *
+//------------------------------------------------
+#define ALL_ON_WHITE "#Something"
+#define ALL_ON_OFF "#Something"
+
+
+//------------------------------------------------
 class ofApp : public ofBaseApp{
 
 	public:
@@ -35,6 +46,24 @@ class ofApp : public ofBaseApp{
 		void keyPressed(int key);
 		void keyReleased(int key);
     
+    
+        // DMX Stuff
+        void setupDMX(string device);
+        void updateDMX();
+        void drawDMX();
+    
+        ofxDmx enttecBox;
+
+        // Serial/UART IN
+        void setupLightBugConnection(string device,int baud);
+        void updateLightBug();
+    
+        ofSerial lightBug;
+    
+    
+        // Load the Config File
+        void openConfig(string configFile);
+        ofxJSON config;
     
         // Make the colors
         void setupColors();
