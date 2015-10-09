@@ -29,7 +29,6 @@ void ofApp::setupDMX(string device)
     if (!enttecBox.isConnected()) {
         cout << "DMX not connected" << endl;
         dmxConnected = false;
-//        return;
     }
     else {
         dmxConnected = true;
@@ -37,8 +36,19 @@ void ofApp::setupDMX(string device)
     }
 }
 //--------------------------------------------------------------
+void ofApp::setupTrees(int numberOfTrees)
+{
+    for (int ch = 1; ch < (numberOfTrees*3); ch += 3) {
+        Tree t;
+        t.setup((ch/3)+1, ch);
+        trees.push_back(t);
+    }
+}
+//--------------------------------------------------------------
 void ofApp::setup()
 {
+    counter = 0;
+    setupTrees(8);
     setupDMX("/dev/tty.usbserial-EN150288");
     setupColors();
 }
@@ -46,23 +56,38 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::updateDMX()
 {
-    
+    for (int i = 0; i < trees.size(); i++) {
+        enttecBox.setLevel(trees[i].getAddresses(),trees[i].getColor().r);
+        enttecBox.setLevel(trees[i].getAddresses()+1,trees[i].getColor().g);
+        enttecBox.setLevel(trees[i].getAddresses()+2,trees[i].getColor().b);
+    }
     enttecBox.update();
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
-
-
+    if(counter > colorsArray.size()) {
+        counter = 0;
+    }
+    if (ofGetFrameNum() % 60 == 0) {
+        counter++;
+    }
+    for (int i = 0; i < trees.size(); i++) {
+        trees[i].setColor(colorsArray[counter]);
+    }
 }
 #pragma mark - Draw
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    ofBackground(255, 255, 255);
+    ofBackground(50);
     for(int i = 0; i < colorsArray.size(); i++) {
         ofSetColor(colorsArray[i]);
         ofCircle((ofGetWidth()/2-(colorsArray.size()/2*25))+(i*25),ofGetHeight()/2,10);
+    }
+    
+    for (int i = 0; i < trees.size(); i++) {
+        trees[i].draw(25+(i*50), 50);
     }
 }
 //--------------------------------------------------------------

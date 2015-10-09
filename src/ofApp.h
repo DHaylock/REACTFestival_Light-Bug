@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "ofxDmx.h"
 #include "ofxJSON.h"
+#include "tree.h"
+
 //------------------------------------------------
 // *
 // * Color Definitions
@@ -45,7 +47,11 @@ class ofApp : public ofBaseApp{
 		void keyPressed(int key);
 		void keyReleased(int key);
     
-    
+
+        // Trees
+        void setupTrees(int numberOfTrees);
+        vector <Tree> trees;
+        
         // DMX Stuff
         void setupDMX(string device);
         void updateDMX();
@@ -67,4 +73,5 @@ class ofApp : public ofBaseApp{
         // Make the colors
         void setupColors();
         vector <ofColor> colorsArray;
+        int counter;
 };
