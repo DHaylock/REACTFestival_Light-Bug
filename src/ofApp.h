@@ -34,7 +34,6 @@
 #define ALL_ON_WHITE "#Something"
 #define ALL_ON_OFF "#Something"
 
-
 //------------------------------------------------
 class ofApp : public ofBaseApp{
 
@@ -53,17 +52,17 @@ class ofApp : public ofBaseApp{
         void drawDMX();
     
         ofxDmx enttecBox;
-
+        bool dmxConnected;
+    
         // Serial/UART IN
         void setupLightBugConnection(string device,int baud);
         void updateLightBug();
     
         ofSerial lightBug;
     
-    
         // Load the Config File
         void openConfig(string configFile);
-        ofxJSON config;
+        ofxJSONElement config;
     
         // Make the colors
         void setupColors();

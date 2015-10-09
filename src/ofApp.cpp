@@ -1,5 +1,6 @@
 #include "ofApp.h"
 
+#pragma mark - Setups
 //--------------------------------------------------------------
 void ofApp::setupColors()
 {
@@ -22,18 +23,43 @@ void ofApp::setupColors()
     colorsArray.push_back(OFF);
 }
 //--------------------------------------------------------------
+void ofApp::setupDMX(string device)
+{
+    enttecBox.connect(device);
+    if (!enttecBox.isConnected()) {
+        cout << "DMX not connected" << endl;
+        dmxConnected = false;
+//        return;
+    }
+    else {
+        dmxConnected = true;
+        cout << "DMX connected: " << device << endl;
+    }
+}
+//--------------------------------------------------------------
 void ofApp::setup()
 {
+    setupDMX("/dev/tty.usbserial-EN150288");
     setupColors();
+}
+#pragma mark - Updates
+//--------------------------------------------------------------
+void ofApp::updateDMX()
+{
+    
+    enttecBox.update();
 }
 //--------------------------------------------------------------
 void ofApp::update()
 {
 
+
 }
+#pragma mark - Draw
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    ofBackground(255, 255, 255);
     for(int i = 0; i < colorsArray.size(); i++) {
         ofSetColor(colorsArray[i]);
         ofCircle((ofGetWidth()/2-(colorsArray.size()/2*25))+(i*25),ofGetHeight()/2,10);
