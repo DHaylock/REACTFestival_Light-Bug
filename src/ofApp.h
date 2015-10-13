@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxDmx.h"
 #include "ofxJSON.h"
+#include "ofxSimpleSerial.h"
 #include "tree.h"
 
 //------------------------------------------------
@@ -10,23 +11,23 @@
 // * Color Definitions
 // *
 //------------------------------------------------
-#define RED_1 ofColor(255,80,80)
-#define RED_2 ofColor(255,0,0)
-#define RED_3 ofColor(255,50,0)
-#define RED_4 ofColor(255,80,0)
-
-#define GREEN_1 ofColor(255,255,0)
-#define GREEN_2 ofColor(0,255,0)
-#define GREEN_3 ofColor(0,220,10)
-#define GREEN_4 ofColor(0,140,40)
-
-#define BLUE_1 ofColor(0,220,170)
-#define BLUE_2 ofColor(0,0,255)
-#define BLUE_3 ofColor(40,0,170)
-#define BLUE_4 ofColor(255,0,255)
-
-#define WHITE ofColor(255,255,255)
-#define OFF ofColor(0,0,0)
+//#define RED_1 ofColor(255,80,80)
+//#define RED_2 ofColor(255,0,0)
+//#define RED_3 ofColor(255,50,0)
+//#define RED_4 ofColor(255,80,0)
+//
+//#define GREEN_1 ofColor(255,255,0)
+//#define GREEN_2 ofColor(0,255,0)
+//#define GREEN_3 ofColor(0,220,10)
+//#define GREEN_4 ofColor(0,140,40)
+//
+//#define BLUE_1 ofColor(0,220,170)
+//#define BLUE_2 ofColor(0,0,255)
+//#define BLUE_3 ofColor(40,0,170)
+//#define BLUE_4 ofColor(255,0,255)
+//
+//#define WHITE ofColor(255,255,255)
+//#define OFF ofColor(0,0,0)
 
 //------------------------------------------------
 // *
@@ -70,6 +71,9 @@
 #define T1_ON_B2 "1OB2"
 #define T1_ON_B3 "1OB3"
 #define T1_ON_B4 "1OB4"
+#define T1_ON_WH "1OWH"
+#define T1_OFF "1OFF"
+
 #define T2_ON_R1 "2OR1"
 #define T2_ON_R2 "2OR2"
 #define T2_ON_R3 "2OR3"
@@ -82,6 +86,9 @@
 #define T2_ON_B2 "2OB2"
 #define T2_ON_B3 "2OB3"
 #define T2_ON_B4 "2OB4"
+#define T2_ON_WH "2OWH"
+#define T2_OFF "2OFF"
+
 #define T3_ON_R1 "3OR1"
 #define T3_ON_R2 "3OR2"
 #define T3_ON_R3 "3OR3"
@@ -94,6 +101,9 @@
 #define T3_ON_B2 "3OB2"
 #define T3_ON_B3 "3OB3"
 #define T3_ON_B4 "3OB4"
+#define T3_ON_WH "3OWH"
+#define T3_OFF "3OFF"
+
 #define T4_ON_R1 "4OR1"
 #define T4_ON_R2 "4OR2"
 #define T4_ON_R3 "4OR3"
@@ -106,6 +116,9 @@
 #define T4_ON_B2 "4OB2"
 #define T4_ON_B3 "4OB3"
 #define T4_ON_B4 "4OB4"
+#define T4_ON_WH "4OWH"
+#define T4_OFF "4OFF"
+
 #define T5_ON_R1 "5OR1"
 #define T5_ON_R2 "5OR2"
 #define T5_ON_R3 "5OR3"
@@ -118,6 +131,9 @@
 #define T5_ON_B2 "5OB2"
 #define T5_ON_B3 "5OB3"
 #define T5_ON_B4 "5OB4"
+#define T5_ON_WH "5OWH"
+#define T5_OFF "5OFF"
+
 #define T6_ON_R1 "6OR1"
 #define T6_ON_R2 "6OR2"
 #define T6_ON_R3 "6OR3"
@@ -130,6 +146,9 @@
 #define T6_ON_B2 "6OB2"
 #define T6_ON_B3 "6OB3"
 #define T6_ON_B4 "6OB4"
+#define T6_ON_WH "6OWH"
+#define T6_OFF "6OFF"
+
 #define T7_ON_R1 "7OR1"
 #define T7_ON_R2 "7OR2"
 #define T7_ON_R3 "7OR3"
@@ -142,6 +161,9 @@
 #define T7_ON_B2 "7OB2"
 #define T7_ON_B3 "7OB3"
 #define T7_ON_B4 "7OB4"
+#define T7_ON_WH "7OWH"
+#define T7_OFF "7OFF"
+
 #define T8_ON_R1 "8OR1"
 #define T8_ON_R2 "8OR2"
 #define T8_ON_R3 "8OR3"
@@ -154,6 +176,8 @@
 #define T8_ON_B2 "8OB2"
 #define T8_ON_B3 "8OB3"
 #define T8_ON_B4 "8OB4"
+#define T8_ON_WH "8OWH"
+#define T8_OFF "8OFF"
 
 #define DELIMIT ","
 //------------------------------------------------
@@ -163,7 +187,9 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
-
+    
+        void exit();
+    
 		void keyPressed(int key);
 		void keyReleased(int key);
     
@@ -184,18 +210,42 @@ class ofApp : public ofBaseApp{
         void setupLightBugConnection(string device,int baud);
         void updateLightBug();
     
-        ofSerial lightBug;
+        ofxSimpleSerial lightBug;
+        void onNewMessage(string & message);
+        bool		requestRead;
     
-        // Load the Config File
-        void openConfig(string configFile);
-        ofxJSONElement config;
     
         // Make the colors
         void setupColors();
         vector <ofColor> colorsArray;
         int counter;
     
+        void setupTestSequence();
+        vector<string> testSequence;
+    
         vector <string> split;
-        string command;
         bool doneOnce;
+    
+        // Load the Config File
+        void openConfig(string configFile);
+        ofxJSONElement config;
+        string serialInLightBug;
+        string dmxController;
+        int lightBugBaud;
+        ofColor RED_1;
+        ofColor RED_2;
+        ofColor RED_3;
+        ofColor RED_4;
+        ofColor GREEN_1;
+        ofColor GREEN_2;
+        ofColor GREEN_3;
+        ofColor GREEN_4;
+        ofColor BLUE_1;
+        ofColor BLUE_2;
+        ofColor BLUE_3;
+        ofColor BLUE_4;
+        ofColor WHITE;
+        ofColor OFF;
+    
+
 };
