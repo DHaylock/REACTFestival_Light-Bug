@@ -201,6 +201,20 @@ void ofApp::setupTestSequence()
     testSequence.push_back("#"+ofToString(ALL_ON_B2));
     testSequence.push_back("#"+ofToString(ALL_ON_B3));
     testSequence.push_back("#"+ofToString(ALL_ON_B4));
+    testSequence.push_back("#"+ofToString(ALL_OFF));
+    testSequence.push_back("#"+ofToString(ALL_ON_B4));
+    testSequence.push_back("#"+ofToString(ALL_ON_B3));
+    testSequence.push_back("#"+ofToString(ALL_ON_B2));
+    testSequence.push_back("#"+ofToString(ALL_ON_B1));
+    testSequence.push_back("#"+ofToString(ALL_ON_G4));
+    testSequence.push_back("#"+ofToString(ALL_ON_G3));
+    testSequence.push_back("#"+ofToString(ALL_ON_G2));
+    testSequence.push_back("#"+ofToString(ALL_ON_G1));
+    testSequence.push_back("#"+ofToString(ALL_ON_R4));
+    testSequence.push_back("#"+ofToString(ALL_ON_R3));
+    testSequence.push_back("#"+ofToString(ALL_ON_R2));
+    testSequence.push_back("#"+ofToString(ALL_ON_R1));
+    
 }
 //--------------------------------------------------------------
 void ofApp::setupTrees(int numberOfTrees)
@@ -341,20 +355,26 @@ void ofApp::onNewMessage(string & message)
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+//    message = "";
     doneOnce = false;
     openConfig("configFile.json");
     setupColors();
     counter = 0;
     setupTrees(8);
     setupDMX("/dev/tty.usbserial-EN150288");
-    
+   
     setupTestSequence();
-    lightBug.setup("/dev/tty.usbmodem1421",9600);
+    lightBug.setup("/dev/tty.usbmodem1421",19200);
+    nTimesRead = 0;
+    nBytesRead = 0;
+    readTime = 0;
+    memset(bytesReadString, 0, 6);
+    
+//    lightBug.startContinuousRead();
 //    lightBug.drain();
 //    lightBug.flush();
-//    lightBug.startContinuousRead();
 
-    ofAddListener(lightBug.NEW_MESSAGE,this,&ofApp::onNewMessage);
+//    ofAddListener(lightBug.NEW_MESSAGE,this,&ofApp::onNewMessage);
 }
 #pragma mark - Updates
 //--------------------------------------------------------------
@@ -376,10 +396,32 @@ void ofApp::update()
         counter = 0;
     }
     
-    if(ofGetFrameNum() % 15 == 0) {
-        onNewMessage(testSequence[counter]);
+    if(ofGetFrameNum() % 10 == 0) {
+        nTimesRead = 0;
+        nBytesRead = 0;
+        int nRead  = 0;  // a temp variable to keep count per read
+        
+        unsigned char bytesReturned[5];
+        
+        memset(bytesReadString, 0, 6);
+        memset(bytesReturned, 0, 5);
+        
+        while( (nRead = lightBug.readBytes( bytesReturned, 5)) > 0){
+            nTimesRead++;
+            nBytesRead = nRead;
+        };
+        
+        memcpy(bytesReadString, bytesReturned, 5);
+        cout << bytesReadString << endl;
+            string m = ofToString(bytesReadString);
+        onNewMessage(m);
+//
+//        onNewMessage(testSequence[counter]);
+////        cout << "sendRequest\n";
+////        lightBug.sendRequest();
         counter++;
     }
+//    lightBug.flush();
     updateDMX();
 }
 #pragma mark - Draw
@@ -401,8 +443,6 @@ void ofApp::exit()
 {
     enttecBox.clear();
     enttecBox.update(true);
-//    enttecBox.disconnect();
-    
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)

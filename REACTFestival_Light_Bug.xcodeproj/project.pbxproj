@@ -17,6 +17,7 @@
 		5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC5DA1C87211D4F6377DA719 /* tinyxmlparser.cpp */; };
 		5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C88333E71C9457E441C33474 /* ofxButton.cpp */; };
 		5E0DBDE5736DEB3A5886B3F1 /* ofxEasingBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7660DD2BE873BAD12E3A496D /* ofxEasingBack.cpp */; };
+		63550CF71BCBFC7900F12BA9 /* ofxSimpleSerial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63550CF51BCBFC7900F12BA9 /* ofxSimpleSerial.cpp */; settings = {ASSET_TAGS = (); }; };
 		63B57AC5BF4EF088491E0317 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DF87D612C5AAE17AAFA6C0 /* ofxXmlSettings.cpp */; };
 		6D7B53ED56654ABBF2FF13B1 /* ofxEasingQuad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9E1DB01BD6701283FC87946 /* ofxEasingQuad.cpp */; };
 		6E062274743F6716A9AD4395 /* ofxEasingElastic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A26C4A6254126C99F0A65354 /* ofxEasingElastic.cpp */; };
@@ -113,6 +114,8 @@
 		5E9E6513BEC36148928518B7 /* ofxEasingQuint.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasingQuint.h; path = ../../../addons/ofxTween/src/Easings/ofxEasingQuint.h; sourceTree = SOURCE_ROOT; };
 		5FABA58C3070AF2F33E8C257 /* ofxEasingSine.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxEasingSine.cpp; path = ../../../addons/ofxTween/src/Easings/ofxEasingSine.cpp; sourceTree = SOURCE_ROOT; };
 		61313493CDB52744E22A604D /* json-forwards.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = "json-forwards.h"; path = "../../../addons/ofxJSON/libs/jsoncpp/include/json/json-forwards.h"; sourceTree = SOURCE_ROOT; };
+		63550CF51BCBFC7900F12BA9 /* ofxSimpleSerial.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSimpleSerial.cpp; sourceTree = "<group>"; };
+		63550CF61BCBFC7900F12BA9 /* ofxSimpleSerial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSimpleSerial.h; sourceTree = "<group>"; };
 		637895061BC7BC9C00724626 /* tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tree.h; sourceTree = "<group>"; };
 		7599804C6260EC1CD8D3567D /* ofxEasingLinear.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasingLinear.h; path = ../../../addons/ofxTween/src/Easings/ofxEasingLinear.h; sourceTree = SOURCE_ROOT; };
 		7660DD2BE873BAD12E3A496D /* ofxEasingBack.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxEasingBack.cpp; path = ../../../addons/ofxTween/src/Easings/ofxEasingBack.cpp; sourceTree = SOURCE_ROOT; };
@@ -252,6 +255,24 @@
 			name = json;
 			sourceTree = "<group>";
 		};
+		63550CF31BCBFC7900F12BA9 /* ofxSimpleSerial */ = {
+			isa = PBXGroup;
+			children = (
+				63550CF41BCBFC7900F12BA9 /* src */,
+			);
+			name = ofxSimpleSerial;
+			sourceTree = "<group>";
+		};
+		63550CF41BCBFC7900F12BA9 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				63550CF51BCBFC7900F12BA9 /* ofxSimpleSerial.cpp */,
+				63550CF61BCBFC7900F12BA9 /* ofxSimpleSerial.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxSimpleSerial/src;
+			sourceTree = "<group>";
+		};
 		6E54289412D2D94F45A05113 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -363,6 +384,7 @@
 				9C10541A7618D99B3938950F /* ofxDmx */,
 				2865DAEF86B1907A704CA70B /* ofxJSON */,
 				1F293A20D2B096D59C4F24DD /* ofxTween */,
+				63550CF31BCBFC7900F12BA9 /* ofxSimpleSerial */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -593,6 +615,7 @@
 				59EEACB88F062457FF86492C /* ofxEasingExpo.cpp in Sources */,
 				152EAECABD008D84AF7F27F8 /* ofxEasingLinear.cpp in Sources */,
 				6D7B53ED56654ABBF2FF13B1 /* ofxEasingQuad.cpp in Sources */,
+				63550CF71BCBFC7900F12BA9 /* ofxSimpleSerial.cpp in Sources */,
 				85A41526FDFA1A8CDAEE81F7 /* ofxEasingQuart.cpp in Sources */,
 				7E769097DE6561633305B24C /* ofxEasingQuint.cpp in Sources */,
 				FE278F5F783581237AE8ECB2 /* ofxEasingSine.cpp in Sources */,
@@ -789,7 +812,9 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -874,7 +899,9 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -210,10 +210,16 @@ class ofApp : public ofBaseApp{
         void setupLightBugConnection(string device,int baud);
         void updateLightBug();
     
-        ofxSimpleSerial lightBug;
+        ofSerial lightBug;
         void onNewMessage(string & message);
         bool		requestRead;
-    
+//        string message;
+        bool		bSendSerialMessage;			// a flag for sending serial
+        char		bytesRead[5];				// data from serial, we will be trying to read 3
+        char		bytesReadString[6];			// a string needs a null terminator, so we need 3 + 1 bytes
+        int			nBytesRead;					// how much did we read?
+        int			nTimesRead;					// how many times did we read?
+        float		readTime;
     
         // Make the colors
         void setupColors();
