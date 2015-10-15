@@ -18,6 +18,7 @@
 		5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C88333E71C9457E441C33474 /* ofxButton.cpp */; };
 		5E0DBDE5736DEB3A5886B3F1 /* ofxEasingBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7660DD2BE873BAD12E3A496D /* ofxEasingBack.cpp */; };
 		63550CF71BCBFC7900F12BA9 /* ofxSimpleSerial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63550CF51BCBFC7900F12BA9 /* ofxSimpleSerial.cpp */; settings = {ASSET_TAGS = (); }; };
+		636EDBCA1BCFB43B0067C45D /* ofxSimpleTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 636EDBC81BCFB43B0067C45D /* ofxSimpleTimer.cpp */; settings = {ASSET_TAGS = (); }; };
 		63B57AC5BF4EF088491E0317 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DF87D612C5AAE17AAFA6C0 /* ofxXmlSettings.cpp */; };
 		6D7B53ED56654ABBF2FF13B1 /* ofxEasingQuad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9E1DB01BD6701283FC87946 /* ofxEasingQuad.cpp */; };
 		6E062274743F6716A9AD4395 /* ofxEasingElastic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A26C4A6254126C99F0A65354 /* ofxEasingElastic.cpp */; };
@@ -116,6 +117,8 @@
 		61313493CDB52744E22A604D /* json-forwards.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = "json-forwards.h"; path = "../../../addons/ofxJSON/libs/jsoncpp/include/json/json-forwards.h"; sourceTree = SOURCE_ROOT; };
 		63550CF51BCBFC7900F12BA9 /* ofxSimpleSerial.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSimpleSerial.cpp; sourceTree = "<group>"; };
 		63550CF61BCBFC7900F12BA9 /* ofxSimpleSerial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSimpleSerial.h; sourceTree = "<group>"; };
+		636EDBC81BCFB43B0067C45D /* ofxSimpleTimer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSimpleTimer.cpp; sourceTree = "<group>"; };
+		636EDBC91BCFB43B0067C45D /* ofxSimpleTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSimpleTimer.h; sourceTree = "<group>"; };
 		637895061BC7BC9C00724626 /* tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tree.h; sourceTree = "<group>"; };
 		7599804C6260EC1CD8D3567D /* ofxEasingLinear.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasingLinear.h; path = ../../../addons/ofxTween/src/Easings/ofxEasingLinear.h; sourceTree = SOURCE_ROOT; };
 		7660DD2BE873BAD12E3A496D /* ofxEasingBack.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxEasingBack.cpp; path = ../../../addons/ofxTween/src/Easings/ofxEasingBack.cpp; sourceTree = SOURCE_ROOT; };
@@ -273,6 +276,24 @@
 			path = ../../../addons/ofxSimpleSerial/src;
 			sourceTree = "<group>";
 		};
+		636EDBC61BCFB43B0067C45D /* ofxSimpleTimer */ = {
+			isa = PBXGroup;
+			children = (
+				636EDBC71BCFB43B0067C45D /* src */,
+			);
+			name = ofxSimpleTimer;
+			sourceTree = "<group>";
+		};
+		636EDBC71BCFB43B0067C45D /* src */ = {
+			isa = PBXGroup;
+			children = (
+				636EDBC81BCFB43B0067C45D /* ofxSimpleTimer.cpp */,
+				636EDBC91BCFB43B0067C45D /* ofxSimpleTimer.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxSimpleTimer/src;
+			sourceTree = "<group>";
+		};
 		6E54289412D2D94F45A05113 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +406,7 @@
 				2865DAEF86B1907A704CA70B /* ofxJSON */,
 				1F293A20D2B096D59C4F24DD /* ofxTween */,
 				63550CF31BCBFC7900F12BA9 /* ofxSimpleSerial */,
+				636EDBC61BCFB43B0067C45D /* ofxSimpleTimer */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -613,6 +635,7 @@
 				E816D7D242D315FB53E23F54 /* ofxEasingCubic.cpp in Sources */,
 				6E062274743F6716A9AD4395 /* ofxEasingElastic.cpp in Sources */,
 				59EEACB88F062457FF86492C /* ofxEasingExpo.cpp in Sources */,
+				636EDBCA1BCFB43B0067C45D /* ofxSimpleTimer.cpp in Sources */,
 				152EAECABD008D84AF7F27F8 /* ofxEasingLinear.cpp in Sources */,
 				6D7B53ED56654ABBF2FF13B1 /* ofxEasingQuad.cpp in Sources */,
 				63550CF71BCBFC7900F12BA9 /* ofxSimpleSerial.cpp in Sources */,
