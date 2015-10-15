@@ -1,26 +1,82 @@
 #include "ofApp.h"
 
-#pragma mark - Setups
+//#pragma mark - Setups
 //--------------------------------------------------------------
 void ofApp::setupColors()
 {
-    colorsArray.push_back(RED_1);
-    colorsArray.push_back(RED_2);
-    colorsArray.push_back(RED_3);
-    colorsArray.push_back(RED_4);
+    colors r1;
+    r1.c = RED_1;
+    r1.name = "Red 1";
     
-    colorsArray.push_back(GREEN_1);
-    colorsArray.push_back(GREEN_2);
-    colorsArray.push_back(GREEN_3);
-    colorsArray.push_back(GREEN_4);
+    colors r2;
+    r2.c = RED_2;
+    r2.name = "Red 2";
+
+    colors r3;
+    r3.c = RED_3;
+    r3.name = "Red 3";
     
-    colorsArray.push_back(BLUE_1);
-    colorsArray.push_back(BLUE_2);
-    colorsArray.push_back(BLUE_3);
-    colorsArray.push_back(BLUE_4);
+    colors r4;
+    r4.c = RED_4;
+    r4.name = "Red 4";
+
+    colors g1;
+    g1.c = GREEN_1;
+    g1.name = "Green 1";
     
-    colorsArray.push_back(WHITE);
-    colorsArray.push_back(OFF);
+    colors g2;
+    g2.c = GREEN_2;
+    g2.name = "Green 2";
+    
+    colors g3;
+    g3.c = GREEN_3;
+    g3.name = "Green 3";
+    
+    colors g4;
+    g4.c = GREEN_4;
+    g4.name = "Green 4";
+    
+    colors b1;
+    b1.c = BLUE_1;
+    b1.name = "Blue 1";
+    
+    colors b2;
+    b2.c = BLUE_2;
+    b2.name = "Blue 2";
+    
+    colors b3;
+    b3.c = BLUE_3;
+    b3.name = "Blue 3";
+    
+    colors b4;
+    b4.c = BLUE_4;
+    b4.name = "Blue 4";
+    
+    colors w;
+    w.c = WHITE;
+    w.name = "White";
+
+    colors bl;
+    bl.c = OFF;
+    bl.name = "Black";
+    
+    colorsArray.push_back(r1);
+    colorsArray.push_back(r2);
+    colorsArray.push_back(r3);
+    colorsArray.push_back(r4);
+    
+    colorsArray.push_back(g1);
+    colorsArray.push_back(g2);
+    colorsArray.push_back(g3);
+    colorsArray.push_back(g4);
+    
+    colorsArray.push_back(b1);
+    colorsArray.push_back(b2);
+    colorsArray.push_back(b3);
+    colorsArray.push_back(b4);
+    
+    colorsArray.push_back(w);
+    colorsArray.push_back(bl);
 }
 //--------------------------------------------------------------
 void ofApp::openConfig(string configFile)
@@ -31,6 +87,8 @@ void ofApp::openConfig(string configFile)
         cout << "File Not Opened" << endl;
         return;
     }
+    
+    debugLights = config["debugLights"].asBool();
     
     RED_1 = ofColor(config["colors"][0]["red1"]["r"].asInt(),config["colors"][0]["red1"]["g"].asInt(),config["colors"][0]["red1"]["b"].asInt());
 
@@ -55,12 +113,9 @@ void ofApp::openConfig(string configFile)
     BLUE_3 = ofColor(config["colors"][10]["blue3"]["r"].asInt(),config["colors"][10]["blue3"]["g"].asInt(),config["colors"][10]["blue3"]["b"].asInt());
 
     BLUE_4 = ofColor(config["colors"][11]["blue4"]["r"].asInt(),config["colors"][11]["blue4"]["g"].asInt(),config["colors"][11]["blue4"]["b"].asInt());
-    
-    
-    
+
     WHITE = ofColor(255,255,255);
     OFF = ofColor(0,0,0);
-
 }
 //--------------------------------------------------------------
 void ofApp::setupDMX(string device)
@@ -226,7 +281,7 @@ void ofApp::setupTrees(int numberOfTrees)
     }
 }
 //--------------------------------------------------------------
-void ofApp::onNewMessage(string & message)
+void ofApp::onNewMessage(string message)
 {
     bool validString = false;
     cout << "onNewMessage, message: " << message << "\n";
@@ -248,69 +303,74 @@ void ofApp::onNewMessage(string & message)
         }
     }
     
-    if (validString) {
+//    if (validString) {
         for (int i = 0; i < split.size(); i++) {
             for(int e = 1; e <= trees.size(); e++) {
                 if (split[i].substr(0,1) == ofToString(e)) {
                     cout << "We Have A " << ofToString(e) << endl;
-                    if (split[i].substr(2,1) == "R") {
-                        if (split[i].substr(3,1) == "1") {
-                            trees[e-1].setColor(RED_1);
+                    cout << split[i].length() << endl;
+                    
+                    if (split[i].length() > 0) {
+                        if (split[i].substr(2,1) == "R") {
+                            if (split[i].substr(3,1) == "1") {
+                                cout << "Turn me on" << endl;
+                                trees[e-1].setColor(RED_1);
+                            }
+                            else if (split[i].substr(3,1) == "2") {
+                                trees[e-1].setColor(RED_2);
+                            }
+                            else if (split[i].substr(3,1) == "3") {
+                                trees[e-1].setColor(RED_3);
+                            }
+                            else if (split[i].substr(3,1) == "4") {
+                                trees[e-1].setColor(RED_4);
+                            }
                         }
-                        else if (split[i].substr(3,1) == "2") {
-                            trees[e-1].setColor(RED_2);
+                        else if (split[i].substr(2,1) == "G") {
+                            if (split[i].substr(3,1) == "1") {
+                                trees[e-1].setColor(GREEN_1);
+                            }
+                            else if (split[i].substr(3,1) == "2") {
+                                trees[e-1].setColor(GREEN_2);
+                            }
+                            else if (split[i].substr(3,1) == "3") {
+                                trees[e-1].setColor(GREEN_3);
+                            }
+                            else if (split[i].substr(3,1) == "4") {
+                                trees[e-1].setColor(GREEN_4);
+                            }
                         }
-                        else if (split[i].substr(3,1) == "3") {
-                            trees[e-1].setColor(RED_3);
+                        else if (split[i].substr(2,1) == "B") {
+                            if (split[i].substr(3,1) == "1") {
+                                trees[e-1].setColor(BLUE_1);
+                            }
+                            else if (split[i].substr(3,1) == "2") {
+                                trees[e-1].setColor(BLUE_2);
+                            }
+                            else if (split[i].substr(3,1) == "3") {
+                                trees[e-1].setColor(BLUE_3);
+                            }
+                            else if (split[i].substr(3,1) == "4") {
+                                trees[e-1].setColor(BLUE_4);
+                            }
                         }
-                        else if (split[i].substr(3,1) == "4") {
-                            trees[e-1].setColor(RED_4);
+                        else if (split[i].substr(2,2) == "WH") {
+                            trees[e-1].setColor(WHITE);
                         }
-                    }
-                    else if (split[i].substr(2,1) == "G") {
-                        if (split[i].substr(3,1) == "1") {
-                            trees[e-1].setColor(GREEN_1);
+                        else if (split[i].substr(2,2) == "FF") {
+                            trees[e-1].setColor(OFF);
                         }
-                        else if (split[i].substr(3,1) == "2") {
-                            trees[e-1].setColor(GREEN_2);
-                        }
-                        else if (split[i].substr(3,1) == "3") {
-                            trees[e-1].setColor(GREEN_3);
-                        }
-                        else if (split[i].substr(3,1) == "4") {
-                            trees[e-1].setColor(GREEN_4);
-                        }
-                    }
-                    else if (split[i].substr(2,1) == "B") {
-                        if (split[i].substr(3,1) == "1") {
-                            trees[e-1].setColor(BLUE_1);
-                        }
-                        else if (split[i].substr(3,1) == "2") {
-                            trees[e-1].setColor(BLUE_2);
-                        }
-                        else if (split[i].substr(3,1) == "3") {
-                            trees[e-1].setColor(BLUE_3);
-                        }
-                        else if (split[i].substr(3,1) == "4") {
-                            trees[e-1].setColor(BLUE_4);
-                        }
-                    }
-                    else if (split[i].substr(2,2) == "WH") {
-                        trees[e-1].setColor(WHITE);
-                    }
-                    else if (split[i].substr(2,2) == "FF") {
-                        trees[e-1].setColor(OFF);
                     }
                 }
                 else if (split[i].substr(0,1) == "A") {
-                    if (split[i].substr(2,2) == "WH") {
-                        trees[e-1].setColor(WHITE);
-                    }
-                    else if (split[i].substr(2,2) == "FF") {
-                        trees[e-1].setColor(OFF);
-                    }
                     for (int tr = 0; tr < trees.size();  tr++) {
-                        if (split[i].substr(2,2) == "R1") {
+                        if (split[i].substr(2,2) == "WH") {
+                            trees[tr].setColor(WHITE);
+                        }
+                        else if (split[i].substr(2,2) == "FF") {
+                            trees[tr].setColor(OFF);
+                        }
+                        else if (split[i].substr(2,2) == "R1") {
                             trees[tr].setColor(RED_1);
                         }
                         else if (split[i].substr(2,2) == "R2") {
@@ -350,7 +410,6 @@ void ofApp::onNewMessage(string & message)
                 }
             }
         }
-    }
 }
 //--------------------------------------------------------------
 void ofApp::setup()
@@ -359,24 +418,30 @@ void ofApp::setup()
     doneOnce = false;
     openConfig("configFile.json");
     setupColors();
-    counter = 0;
+
     setupTrees(8);
     setupDMX("/dev/tty.usbserial-EN150288");
-   
-    setupTestSequence();
-    lightBug.setup("/dev/tty.usbmodem1421",19200);
+
+    if (debugLights) {
+        counter = 0;
+        setupTestSequence();
+    }
+
+    
+    treeNames.loadFont("NewMedia Fett.ttf", 15);
+    
+    lightBug.setup("/dev/tty.usbmodem1421",38400);
     nTimesRead = 0;
     nBytesRead = 0;
     readTime = 0;
     memset(bytesReadString, 0, 6);
     
-//    lightBug.startContinuousRead();
-//    lightBug.drain();
-//    lightBug.flush();
-
-//    ofAddListener(lightBug.NEW_MESSAGE,this,&ofApp::onNewMessage);
+    timer1.setup( 1000 ) ;
+    timer1.start( true ) ;
+    ofAddListener( timer1.TIMER_COMPLETE , this, &ofApp::timer1CompleteHandler ) ;
+    ofAddListener( timer1.TIMER_STARTED , this, &ofApp::timer1StartedHandler ) ;
 }
-#pragma mark - Updates
+//#pragma mark - Updates
 //--------------------------------------------------------------
 void ofApp::updateDMX()
 {
@@ -388,55 +453,84 @@ void ofApp::updateDMX()
     enttecBox.update();
 }
 //--------------------------------------------------------------
+void ofApp::timer1StartedHandler( int &args ) {
+    cout<<"TIMER1 STARTED"<<endl;
+}
+//--------------------------------------------------------------
+void ofApp::timer1CompleteHandler( int &args )
+{
+    if (!debugLights) {
+//        lightBug.writeByte('r');
+        messageBuffer = "";
+        if (lightBug.available() > 0) {
+            while(lightBug.available() > 0) {
+                lightBug.readBytes(bytesReturned, 1);
+                if (*bytesReturned == '\n') {
+                    cout << messageBuffer << endl;
+                    onNewMessage(messageBuffer);
+                   
+                    break;
+                }
+                else
+                {
+                    if (*bytesReturned != '\n') {
+                        messageBuffer += *bytesReturned;
+                    }
+                }
+            }
+            memset(bytesReturned, 0, 1);
+        }
+    }
+}
+//--------------------------------------------------------------
 void ofApp::update()
 {
+    timer1.update();
     string command = "";
-    
-    if (counter > testSequence.size()-1) {
-        counter = 0;
+    if (debugLights) {
+        if (counter > testSequence.size()-1) {
+            counter = 0;
+        }
+        
+        if(ofGetFrameNum() % 10 == 0) {
+            onNewMessage(testSequence[counter]);
+            counter++;
+        }
     }
-    
-    if(ofGetFrameNum() % 10 == 0) {
-        nTimesRead = 0;
-        nBytesRead = 0;
-        int nRead  = 0;  // a temp variable to keep count per read
-        
-        unsigned char bytesReturned[5];
-        
-        memset(bytesReadString, 0, 6);
-        memset(bytesReturned, 0, 5);
-        
-        while( (nRead = lightBug.readBytes( bytesReturned, 5)) > 0){
-            nTimesRead++;
-            nBytesRead = nRead;
-        };
-        
-        memcpy(bytesReadString, bytesReturned, 5);
-        cout << bytesReadString << endl;
-            string m = ofToString(bytesReadString);
-        onNewMessage(m);
-//
-//        onNewMessage(testSequence[counter]);
-////        cout << "sendRequest\n";
-////        lightBug.sendRequest();
-        counter++;
+    else {
+//        This is the read mode
     }
-//    lightBug.flush();
+
     updateDMX();
 }
-#pragma mark - Draw
+//#pragma mark - Draw
 //--------------------------------------------------------------
 void ofApp::draw()
 {
     ofBackground(50);
     for(int i = 0; i < colorsArray.size(); i++) {
-        ofSetColor(colorsArray[i]);
+        ofSetColor(colorsArray[i].c);
         ofCircle(25, (ofGetHeight()/2-(colorsArray.size()/2*25))+(i*25), 10);
+        ofSetColor(255, 255, 255);
+        treeNames.drawString(colorsArray[i].name, 40, (ofGetHeight()/2-(colorsArray.size()/2*25))+(i*25)+5);
     }
     
     for (int i = 0; i < trees.size(); i++) {
-        trees[i].draw((ofGetWidth()/2-(trees.size()/2*75))+(i*100), ofGetHeight()/2);
+        trees[i].draw((ofGetWidth()/2-(trees.size()/2*75))+(i*100), 100);
+        ofSetColor(255);
+        ofPushMatrix();
+        ofTranslate((ofGetWidth()/2-(trees.size()/2*75))+(i*100)-35, 100+85);
+        ofRotateZ(-45);
+        ofPushMatrix();
+        treeNames.drawString("Tree "+ ofToString(i+1), 0, 0);
+        ofPopMatrix();
+        ofPopMatrix();
     }
+    ofSetColor(255);
+    ofPushMatrix();
+    ofScale(2.5, 2.5);
+    treeNames.drawString("LIGHT BUG", 5, 20);
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 void ofApp::exit()

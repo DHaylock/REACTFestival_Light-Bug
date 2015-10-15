@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "ofxDmx.h"
 #include "ofxJSON.h"
-#include "ofxSimpleSerial.h"
+#include "ofxSimpleTimer.h"
 #include "tree.h"
 
 //------------------------------------------------
@@ -180,6 +180,11 @@
 #define T8_OFF "8OFF"
 
 #define DELIMIT ","
+
+struct colors {
+    string name;
+    ofColor c;
+};
 //------------------------------------------------
 class ofApp : public ofBaseApp{
 
@@ -193,7 +198,6 @@ class ofApp : public ofBaseApp{
 		void keyPressed(int key);
 		void keyReleased(int key);
     
-
         // Trees
         void setupTrees(int numberOfTrees);
         vector <Tree> trees;
@@ -211,7 +215,7 @@ class ofApp : public ofBaseApp{
         void updateLightBug();
     
         ofSerial lightBug;
-        void onNewMessage(string & message);
+        void onNewMessage(string message);
         bool		requestRead;
 //        string message;
         bool		bSendSerialMessage;			// a flag for sending serial
@@ -220,10 +224,12 @@ class ofApp : public ofBaseApp{
         int			nBytesRead;					// how much did we read?
         int			nTimesRead;					// how many times did we read?
         float		readTime;
+        unsigned char	bytesReturned[1];
+        string messageBuffer;
     
         // Make the colors
         void setupColors();
-        vector <ofColor> colorsArray;
+        vector <colors> colorsArray;
         int counter;
     
         void setupTestSequence();
@@ -238,6 +244,7 @@ class ofApp : public ofBaseApp{
         string serialInLightBug;
         string dmxController;
         int lightBugBaud;
+        bool debugLights;
         ofColor RED_1;
         ofColor RED_2;
         ofColor RED_3;
@@ -252,6 +259,12 @@ class ofApp : public ofBaseApp{
         ofColor BLUE_4;
         ofColor WHITE;
         ofColor OFF;
+    
+        ofTrueTypeFont treeNames;
+    
+        ofxSimpleTimer timer1 ;
+        void timer1CompleteHandler( int &args ) ;
+        void timer1StartedHandler( int &args ) ;
     
 
 };
